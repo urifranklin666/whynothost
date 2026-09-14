@@ -1,0 +1,18 @@
+{
+  "id": "foundry-vtt",
+  "name": "Foundry VTT",
+  "tagline": "Virtual tabletop for your RPG nights",
+  "description": "Virtual tabletop: host D&D, Pathfinder and every other system for your party, with dynamic lighting, tokens and hundreds of system modules.",
+  "category": "media",
+  "version": "12",
+  "icon": "🎲",
+  "color": "#e74c3c",
+  "featured": false,
+  "image": "felddy/foundryvtt:release",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "30000", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "tabletop.home.arpa", "type": "domain"},
+    {"key": "license_key", "label": "Foundry license key", "default": "", "type": "secret", "required": true}
+  ],
+  "compose": "services:\n  foundry:\n    image: felddy/foundryvtt:release\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:30000\"\n    environment:\n      FOUNDRY_LICENSE_KEY: \"${{cfg.license_key}}\"\n    volumes:\n      - ./data:/data\n    restart: unless-stopped\n"
+}

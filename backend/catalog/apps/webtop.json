@@ -1,0 +1,17 @@
+{
+  "id": "webtop",
+  "name": "Webtop",
+  "tagline": "Full Linux desktop in the browser",
+  "description": "Alpine/Ubuntu desktop environments streamed to your browser over HTML5 — a complete remote desktop without any client software.",
+  "category": "dev",
+  "version": "4.17",
+  "icon": "🖱️",
+  "color": "#5c6bc0",
+  "featured": false,
+  "image": "lscr.io/linuxserver/webtop:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3080", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "desktop.home.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  webtop:\n    image: lscr.io/linuxserver/webtop:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    security_opt:\n      - seccomp:unconfined\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

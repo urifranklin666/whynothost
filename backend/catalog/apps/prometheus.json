@@ -1,0 +1,17 @@
+{
+  "id": "prometheus",
+  "name": "Prometheus",
+  "tagline": "The metrics & alerting toolkit",
+  "description": "Industry-standard time-series database and scraper for metrics, with its powerful query language (PromQL) and alerting rules.",
+  "category": "monitoring",
+  "version": "2.55",
+  "icon": "🔥",
+  "color": "#e6522c",
+  "featured": false,
+  "image": "prom/prometheus:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "9090", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "prometheus.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  prometheus:\n    image: prom/prometheus:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:9090\"\n    volumes:\n      - ./data:/prometheus\n    command:\n      - --config.file=/etc/prometheus/prometheus.yml\n      - --storage.tsdb.path=/prometheus\n    restart: unless-stopped\n"
+}

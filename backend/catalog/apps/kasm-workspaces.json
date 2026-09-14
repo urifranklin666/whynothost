@@ -1,0 +1,18 @@
+{
+  "id": "kasm-workspaces",
+  "name": "Kasm Workspaces",
+  "tagline": "Streaming browser & desktop containers",
+  "description": "Run disposable, isolated browser sessions and desktops in the browser — great for opening sketchy links away from your real machine.",
+  "category": "security",
+  "version": "1.16",
+  "icon": "🧪",
+  "color": "#2196f3",
+  "featured": false,
+  "image": "kasmweb/workspaces:1.16.1",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8099", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "kasm.home.arpa", "type": "domain"},
+    {"key": "admin_pass", "label": "Admin password", "default": "admin", "type": "secret"}
+  ],
+  "compose": "services:\n  kasm:\n    image: kasmweb/workspaces:1.16.1\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      KASM_ADMIN_PASSWORD: \"${{cfg.admin_pass}}\"\n    volumes:\n      - ./data:/opt/kasm/current/config\n    privileged: true\n    restart: unless-stopped\n"
+}

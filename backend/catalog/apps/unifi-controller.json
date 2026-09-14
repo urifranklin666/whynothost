@@ -1,0 +1,17 @@
+{
+  "id": "unifi-controller",
+  "name": "UniFi Controller",
+  "tagline": "Manage UniFi network gear from the browser",
+  "description": "Self-hosted UniFi Network Application: manage UniFi APs, switches and gateways without a Cloud Key. Devices adopt over L2 discovery.",
+  "category": "networking",
+  "version": "8.6",
+  "icon": "📶",
+  "color": "#0066a1",
+  "featured": false,
+  "image": "lscr.io/linuxserver/unifi-controller:latest",
+  "config": [
+    {"key": "port", "label": "Web port", "default": "8443", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "unifi.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  unifi:\n    image: lscr.io/linuxserver/unifi-controller:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8443\"\n      - \"3478:3478/udp\"\n      - \"10001:10001/udp\"\n      - \"8080:8080/tcp\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

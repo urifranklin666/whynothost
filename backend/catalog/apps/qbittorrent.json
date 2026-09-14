@@ -1,0 +1,18 @@
+{
+  "id": "qbittorrent",
+  "name": "qBittorrent",
+  "tagline": "BitTorrent client with a web UI",
+  "description": "Full-featured torrent client with web interface, RSS support, categories and a built-in search plugin system.",
+  "category": "media",
+  "version": "5.0",
+  "icon": "🧲",
+  "color": "#2c63e0",
+  "featured": false,
+  "image": "lscr.io/linuxserver/qbittorrent:latest",
+  "config": [
+    {"key": "port", "label": "Web UI port", "default": "8085", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "torrents.home.arpa", "type": "domain"},
+    {"key": "torrent_port", "label": "Torrent port", "default": "6881", "type": "port"}
+  ],
+  "compose": "services:\n  qbittorrent:\n    image: lscr.io/linuxserver/qbittorrent:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n      - \"${{cfg.torrent_port}}:6881/tcp\"\n      - \"${{cfg.torrent_port}}:6881/udp\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n      - /downloads:/downloads\n    restart: unless-stopped\n"
+}

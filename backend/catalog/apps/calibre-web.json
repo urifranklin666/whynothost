@@ -1,0 +1,18 @@
+{
+  "id": "calibre-web",
+  "name": "Calibre-Web",
+  "tagline": "Web library for your Calibre ebooks",
+  "description": "Browse, read and download your ebook collection in the browser. OPDS feed, format conversion (via Calibre binaries), user management.",
+  "category": "reading",
+  "version": "0.6.24",
+  "icon": "📕",
+  "color": "#8d6e63",
+  "featured": false,
+  "image": "lscr.io/linuxserver/calibre-web:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8083", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "ebooks.home.arpa", "type": "domain"},
+    {"key": "library_dir", "label": "Calibre library directory", "default": "/books", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  calibre-web:\n    image: lscr.io/linuxserver/calibre-web:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8083\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n      - ${{cfg.library_dir}}:/books\n    restart: unless-stopped\n"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "mealie",
+  "name": "Mealie",
+  "tagline": "Recipe manager & meal planner",
+  "description": "Import recipes by URL, plan meals, build shopping lists and scale servings. Modern UI with PWA support.",
+  "category": "home",
+  "version": "1.12",
+  "icon": "🍳",
+  "color": "#e58e26",
+  "featured": false,
+  "image": "hkotel/mealie:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "9925", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "recipes.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  mealie:\n    image: hkotel/mealie:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:9000\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/app/data\n    restart: unless-stopped\n"
+}

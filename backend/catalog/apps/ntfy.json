@@ -1,0 +1,17 @@
+{
+  "id": "ntfy",
+  "name": "ntfy",
+  "tagline": "Push notifications over HTTP PUT/GET",
+  "description": "Send push notifications to your phone or desktop with a simple HTTP PUT — no account needed. Subscribe to topics from the official apps.",
+  "category": "communication",
+  "version": "2.11",
+  "icon": "🔔",
+  "color": "#317f6f",
+  "featured": true,
+  "image": "binwiederhier/ntfy:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8095", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "ntfy.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  ntfy:\n    image: binwiederhier/ntfy:latest\n    command: serve\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    volumes:\n      - ./cache:/var/cache/ntfy\n    restart: unless-stopped\n"
+}

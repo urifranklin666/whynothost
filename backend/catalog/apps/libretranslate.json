@@ -1,0 +1,17 @@
+{
+  "id": "libretranslate",
+  "name": "LibreTranslate",
+  "tagline": "Private, self-hosted machine translation",
+  "description": "Open-source translation API and web UI — no cloud, no API keys, no telemetry. Supports dozens of language pairs.",
+  "category": "ai",
+  "version": "1.6",
+  "icon": "🌍",
+  "color": "#2e7d32",
+  "featured": false,
+  "image": "libretranslate/libretranslate:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "5001", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "translate.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  libretranslate:\n    image: libretranslate/libretranslate:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:5000\"\n    volumes:\n      - ./data:/home/libretranslate/.local/share/argos-translate\n    restart: unless-stopped\n"
+}

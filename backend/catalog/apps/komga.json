@@ -1,0 +1,18 @@
+{
+  "id": "komga",
+  "name": "Komga",
+  "tagline": "Media server for comics, manga & books",
+  "description": "Serve your comics, manga, BD and ebooks (CBZ/CBR/PDF/EPUB) with a gorgeous web reader, OPDS support and per-user libraries.",
+  "category": "media",
+  "version": "1.20",
+  "icon": "📚",
+  "color": "#455a64",
+  "featured": false,
+  "image": "ghcr.io/gotson/komga:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8098", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "comics.home.arpa", "type": "domain"},
+    {"key": "library_dir", "label": "Library directory", "default": "/books", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  komga:\n    image: ghcr.io/gotson/komga:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    user: \"1000:1000\"\n    volumes:\n      - ${{cfg.library_dir}}:/data:ro\n      - ./data:/config\n    restart: unless-stopped\n"
+}

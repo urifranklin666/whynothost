@@ -1,0 +1,17 @@
+{
+  "id": "heimdall",
+  "name": "Heimdall",
+  "tagline": "Application dashboard & link organiser",
+  "description": "Dashboard for all your web apps and links with live app stats where supported. Clean cards, tags and enhanced apps.",
+  "category": "networking",
+  "version": "2.6",
+  "icon": "🗺️",
+  "color": "#7b1fa2",
+  "featured": false,
+  "image": "lscr.io/linuxserver/heimdall:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8091", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "start.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  heimdall:\n    image: lscr.io/linuxserver/heimdall:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "speedtest-tracker",
+  "name": "Speedtest Tracker",
+  "tagline": "Track your internet speed over time",
+  "description": "Continuously runs Ookla speedtests and charts latency, download and upload history — perfect evidence for ISP complaints.",
+  "category": "monitoring",
+  "version": "0.26",
+  "icon": "🚀",
+  "color": "#1414ff",
+  "featured": false,
+  "image": "lscr.io/linuxserver/speedtest-tracker:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8097", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "speed.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  speedtest:\n    image: lscr.io/linuxserver/speedtest-tracker:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

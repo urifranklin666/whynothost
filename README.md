@@ -50,7 +50,7 @@ Certificates persist in `data/edge/caddy/data` across restarts. Config changes (
 
 ## Features
 
-- **App Store** — 15 curated apps (Nextcloud, Vaultwarden, Jellyfin, Gitea, n8n, Immich, Pi-hole, Home Assistant…), search, categories, live compose preview before install.
+- **App Store** — 75 curated apps (Nextcloud, Vaultwarden, Jellyfin, Gitea, n8n, Immich, Pi-hole, Home Assistant, Ollama + Open WebUI, Grafana, wg-easy…), search, categories, live compose preview before install.
 - **One-click deploy** — config modal → SSE progress stream → running app.
 - **Lifecycle** — start / stop / restart / update / uninstall per app.
 - **Logs** — live tailed container logs per app.
@@ -79,7 +79,7 @@ backend/
       driver.py         LiveDriver (docker compose) + SimulatedDriver
       compose_render.py template rendering + validation
     routes/             auth + api routers
-  catalog/apps/*.json   15 app manifests (compose templates)
+  catalog/apps/*.json   75 app manifests (compose templates)
   tests/                pytest suite (14 tests)
 frontend/
   src/                  React (Vite + Bootstrap, dark glassmorphism theme)

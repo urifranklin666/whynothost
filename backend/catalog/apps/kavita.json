@@ -1,0 +1,17 @@
+{
+  "id": "kavita",
+  "name": "Kavita",
+  "tagline": "Fast, cross-platform reading server",
+  "description": "Ebook, comic and manga server with built-in readers for every format, OPDS, user libraries and reading lists.",
+  "category": "reading",
+  "version": "0.8",
+  "icon": "📚",
+  "color": "#4caf50",
+  "featured": false,
+  "image": "kavitareader/server:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "5010", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "read.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  kavita:\n    image: kavitareader/server:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:5000\"\n    volumes:\n      - ./data:/kavita/config\n      - /books:/data\n    restart: unless-stopped\n"
+}

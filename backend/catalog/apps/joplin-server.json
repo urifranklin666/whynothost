@@ -1,0 +1,17 @@
+{
+  "id": "joplin-server",
+  "name": "Joplin Server",
+  "tagline": "Sync backend for Joplin notes",
+  "description": "Sync server for the Joplin note-taking apps: keeps your notes, notebooks and attachments in sync across all your devices.",
+  "category": "productivity",
+  "version": "3.0",
+  "icon": "🗒️",
+  "color": "#b32851",
+  "featured": false,
+  "image": "joplin/server:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "22300", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "joplin.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  joplin:\n    image: joplin/server:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:22300\"\n    environment:\n      APP_PORT: \"22300\"\n      APP_BASE_URL: \"https://${{cfg.domain}}\"\n    volumes:\n      - ./data:/home/joplin/.config/joplin\n    restart: unless-stopped\n"
+}

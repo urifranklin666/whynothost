@@ -1,0 +1,18 @@
+{
+  "id": "ghost",
+  "name": "Ghost",
+  "tagline": "Publishing platform for blogs & newsletters",
+  "description": "Professional publishing platform: modern editor, memberships, paid newsletters, themes. The go-to open-source alternative to WordPress/Substack.",
+  "category": "writing",
+  "version": "5.94",
+  "icon": "👻",
+  "color": "#15171a",
+  "featured": false,
+  "image": "ghost:5",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "2368", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "blog.home.arpa", "type": "domain"},
+    {"key": "url", "label": "Public URL", "default": "https://blog.home.arpa", "type": "text", "required": true}
+  ],
+  "compose": "services:\n  ghost:\n    image: ghost:5\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:2368\"\n    environment:\n      url: \"${{cfg.url}}\"\n    volumes:\n      - ./data:/var/lib/ghost/content\n    restart: unless-stopped\n"
+}

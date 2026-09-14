@@ -1,0 +1,17 @@
+{
+  "id": "diun",
+  "name": "Diun",
+  "tagline": "Notifies when Docker images get updates",
+  "description": "Docker Image Update Notifier — watches the images used by your stacks and alerts you through ntfy, Telegram, Discord and more when newer tags exist.",
+  "category": "monitoring",
+  "version": "4.28",
+  "icon": "🔔",
+  "color": "#37a794",
+  "featured": false,
+  "image": "crazymax/diun:latest",
+  "config": [
+    {"key": "timezone", "label": "Timezone", "default": "UTC", "type": "text"},
+    {"key": "notify_url", "label": "Notification webhook URL", "default": "", "type": "text"}
+  ],
+  "compose": "services:\n  diun:\n    image: crazymax/diun:latest\n    command: serve --values-file /etc/diun/diun.yml\n    environment:\n      TZ: \"${{cfg.timezone}}\"\n      DIUN_PROVIDERS_DOCKER: \"true\"\n      DIUN_NOTIF_WEBHOOK_URL: \"${{cfg.notify_url}}\"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock:ro\n      - ./data:/data\n    restart: unless-stopped\n"
+}

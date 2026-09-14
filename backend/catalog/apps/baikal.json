@@ -1,0 +1,17 @@
+{
+  "id": "baikal",
+  "name": "Baïkal",
+  "tagline": "Lightweight CalDAV + CardDAV server",
+  "description": "Host your own calendars and address books: syncs with iOS, Android, Thunderbird and every CalDAV/CardDAV client.",
+  "category": "productivity",
+  "version": "0.10",
+  "icon": "📅",
+  "color": "#c0392b",
+  "featured": false,
+  "image": "ckulka/baikal:nginx",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8765", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "calendar.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  baikal:\n    image: ckulka/baikal:nginx\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    volumes:\n      - ./config:/var/www/baikal/config\n      - ./data:/var/www/baikal/Specific\n    restart: unless-stopped\n"
+}

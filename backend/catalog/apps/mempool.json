@@ -1,0 +1,17 @@
+{
+  "id": "mempool",
+  "name": "Mempool",
+  "tagline": "Your own Bitcoin explorer",
+  "description": "The full-featured Bitcoin block explorer: mempool visualisation, fees, addresses, mining stats — privacy-first, no third-party APIs.",
+  "category": "dev",
+  "version": "3.1",
+  "icon": "⛏️",
+  "color": "#f7931a",
+  "featured": false,
+  "image": "mempool/mempool:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "4080", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "btc.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  mempool:\n    image: mempool/mempool:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    environment:\n      MEMPOOL_NETWORK: \"mainnet\"\n    volumes:\n      - ./data:/backend/cache\n    restart: unless-stopped\n"
+}

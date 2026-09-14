@@ -1,0 +1,18 @@
+{
+  "id": "technitium-dns",
+  "name": "Technitium DNS",
+  "tagline": "Authoritative + recursive DNS server",
+  "description": "Feature-packed DNS server: recursive resolver, authoritative zones, DNS-over-HTTPS, blocking lists and detailed query logs in a clean web UI.",
+  "category": "networking",
+  "version": "12.1",
+  "icon": "🌐",
+  "color": "#40c4ff",
+  "featured": false,
+  "image": "technitium/dns-server:latest",
+  "config": [
+    {"key": "port", "label": "Web console port", "default": "5380", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "dns.home.arpa", "type": "domain"},
+    {"key": "dns_port", "label": "DNS port (53)", "default": "5354", "type": "port", "required": true}
+  ],
+  "compose": "services:\n  technitium:\n    image: technitium/dns-server:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:5380/tcp\"\n      - \"${{cfg.dns_port}}:53/udp\"\n      - \"${{cfg.dns_port}}:53/tcp\"\n    environment:\n      DNS_SERVER_DOMAIN: \"${{cfg.domain}}\"\n    volumes:\n      - ./data:/etc/dns\n    restart: unless-stopped\n"
+}

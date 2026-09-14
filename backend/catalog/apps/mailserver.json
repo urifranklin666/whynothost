@@ -1,0 +1,18 @@
+{
+  "id": "mailcow",
+  "name": "Mailcow",
+  "tagline": "Full-featured mail server suite",
+  "description": "Complete mail server: SMTP/IMAP with Dovecot & Postfix, webmail (SOGo), spam filtering (Rspamd), DKIM — all managed from a polished web UI.",
+  "category": "communication",
+  "version": "2024-09",
+  "icon": "📮",
+  "color": "#d9534f",
+  "featured": false,
+  "image": "ghcr.io/mailcow/mailcow-dockerized:latest",
+  "config": [
+    {"key": "port", "label": "Web UI port", "default": "8088", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "mail.home.arpa", "type": "domain"},
+    {"key": "hostname", "label": "Mail hostname", "default": "mail.home.arpa", "type": "domain", "required": true}
+  ],
+  "compose": "services:\n  mailcow:\n    image: ghcr.io/mailcow/mailcow-dockerized:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      MAILCOW_HOSTNAME: \"${{cfg.hostname}}\"\n    volumes:\n      - ./data:/var/lib/mailcow\n    restart: unless-stopped\n"
+}

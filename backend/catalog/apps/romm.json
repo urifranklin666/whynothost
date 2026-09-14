@@ -1,0 +1,18 @@
+{
+  "id": "romm",
+  "name": "RomM",
+  "tagline": "Emulation ROM library & metadata",
+  "description": "Beautiful ROM manager and web emulator: scans your retro game library, pulls metadata and covers, and plays directly in the browser.",
+  "category": "media",
+  "version": "3.5",
+  "icon": "🎮",
+  "color": "#e91e63",
+  "featured": false,
+  "image": "zurdi15/romm:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8092", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "roms.home.arpa", "type": "domain"},
+    {"key": "library_dir", "label": "ROM library directory", "default": "/roms", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  romm:\n    image: zurdi15/romm:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    environment:\n      ROMM_DB_DRIVER: \"sqlite\"\n    volumes:\n      - ${{cfg.library_dir}}:/romm/library\n      - ./data:/romm/resources\n    restart: unless-stopped\n"
+}

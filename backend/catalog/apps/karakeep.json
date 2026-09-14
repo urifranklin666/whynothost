@@ -1,0 +1,18 @@
+{
+  "id": "karakeep",
+  "name": "Karakeep",
+  "tagline": "Bookmark-everything app with AI tagging",
+  "description": "Hoard web links, notes and images with full-text search, automatic AI tagging and mobile apps. The modern open-source bookmark manager.",
+  "category": "productivity",
+  "version": "0.25",
+  "icon": "🔖",
+  "color": "#1c9be0",
+  "featured": false,
+  "image": "ghcr.io/karakeep-app/karakeep:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3070", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "keep.home.arpa", "type": "domain"},
+    {"key": "nextauth_secret", "label": "Auth secret", "default": "", "type": "secret", "required": true}
+  ],
+  "compose": "services:\n  karakeep:\n    image: ghcr.io/karakeep-app/karakeep:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n    environment:\n      NEXTAUTH_SECRET: \"${{cfg.nextauth_secret}}\"\n      NEXTAUTH_URL: \"https://${{cfg.domain}}\"\n      MEILI_ADDR: \"http://127.0.0.1:7700\"\n    volumes:\n      - ./data:/data\n    restart: unless-stopped\n"
+}

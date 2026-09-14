@@ -1,0 +1,17 @@
+{
+  "id": "meshcentral",
+  "name": "MeshCentral",
+  "tagline": "Remote management & control of your machines",
+  "description": "Full computer remote management: web-based remote desktop, terminal, file transfer and monitoring for Windows/Linux/macOS via MeshAgent. TeamViewer without the cloud.",
+  "category": "dev",
+  "version": "1.1.30",
+  "icon": "🖥️",
+  "color": "#00bfa5",
+  "featured": false,
+  "image": "ghcr.io/yliang4/meshcentral-docker:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8096", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "mesh.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  meshcentral:\n    image: ghcr.io/yliang4/meshcentral-docker:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:4430\"\n    volumes:\n      - ./data:/opt/meshcentral/meshcentral-data\n    restart: unless-stopped\n"
+}

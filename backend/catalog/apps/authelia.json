@@ -1,0 +1,17 @@
+{
+  "id": "authelia",
+  "name": "Authelia",
+  "tagline": "SSO & 2FA portal for your apps",
+  "description": "Authentication and authorization layer: put every app behind one login with 2FA, SSO and fine-grained access rules. Headless reverse-proxy companion.",
+  "category": "security",
+  "version": "4.38",
+  "icon": "🔑",
+  "color": "#0d6efd",
+  "featured": false,
+  "image": "authelia/authelia:latest",
+  "config": [
+    {"key": "http_port", "label": "HTTP port", "default": "9091", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "auth.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  authelia:\n    image: authelia/authelia:latest\n    ports:\n      - \"127.0.0.1:${{cfg.http_port}}:9091\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

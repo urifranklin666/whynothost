@@ -1,0 +1,16 @@
+{
+  "id": "clamav",
+  "name": "ClamAV",
+  "tagline": "Antivirus engine for files & mail",
+  "description": "Open-source antivirus engine with daily signature updates, TCP interface for integration, and on-access scanning. Headless service.",
+  "category": "security",
+  "version": "1.4",
+  "icon": "🦠",
+  "color": "#e53935",
+  "featured": false,
+  "image": "clamav/clamav:latest",
+  "config": [
+    {"key": "scan_dir", "label": "Directory to scan", "default": "/data", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  clamav:\n    image: clamav/clamav:latest\n    environment:\n      CLAMAV_NO_FTPD: \"true\"\n    volumes:\n      - ${{cfg.scan_dir}}:/scandir:ro\n      - ./data:/var/lib/clamav\n    restart: unless-stopped\n"
+}

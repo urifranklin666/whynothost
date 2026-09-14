@@ -1,0 +1,18 @@
+{
+  "id": "bookstack",
+  "name": "BookStack",
+  "tagline": "Simple, structured wiki & documentation",
+  "description": "Organize knowledge in Books > Chapters > Pages. WYSIWYG editor, roles & permissions, image management, export to PDF.",
+  "category": "writing",
+  "version": "24.10",
+  "icon": "📗",
+  "color": "#0287d0",
+  "featured": false,
+  "image": "lscr.io/linuxserver/bookstack:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8092", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "docs.home.arpa", "type": "domain"},
+    {"key": "app_url", "label": "App URL", "default": "https://docs.home.arpa", "type": "text"}
+  ],
+  "compose": "services:\n  bookstack:\n    image: lscr.io/linuxserver/bookstack:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      APP_URL: \"${{cfg.app_url}}\"\n      DATABASE_HOST: \"bookstack-db\"\n      DATABASE_USER: \"bookstack\"\n      DATABASE_PASSWORD: \"bookstack\"\n      DATABASE_DATABASE: \"bookstack\"\n    volumes:\n      - ./data:/config\n    depends_on:\n      - bookstack-db\n    restart: unless-stopped\n  bookstack-db:\n    image: lscr.io/linuxserver/mariadb:latest\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      MYSQL_ROOT_PASSWORD: \"bookstackroot\"\n      MYSQL_DATABASE: \"bookstack\"\n      MYSQL_USER: \"bookstack\"\n      MYSQL_PASSWORD: \"bookstack\"\n    volumes:\n      - ./db:/config\n    restart: unless-stopped\n"
+}

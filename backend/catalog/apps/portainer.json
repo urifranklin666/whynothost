@@ -1,0 +1,17 @@
+{
+  "id": "portainer",
+  "name": "Portainer CE",
+  "tagline": "GUI for managing your Docker environment",
+  "description": "Visual container management: stacks, containers, images, volumes, networks and templates for Docker, Swarm and Kubernetes.",
+  "category": "dev",
+  "version": "2.21",
+  "icon": "🐳",
+  "color": "#13bee9",
+  "featured": false,
+  "image": "portainer/portainer-ce:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "9000", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "portainer.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  portainer:\n    image: portainer/portainer-ce:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:9443\"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock\n      - ./data:/data\n    restart: unless-stopped\n"
+}

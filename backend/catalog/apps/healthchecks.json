@@ -1,0 +1,18 @@
+{
+  "id": "healthchecks",
+  "name": "Healthchecks",
+  "tagline": "Dead-man's-switch cron & job monitor",
+  "description": "Your cron jobs and backups ping Healthchecks when they run; if a ping is late, you get alerted via email, Slack, Telegram and more.",
+  "category": "monitoring",
+  "version": "3.7",
+  "icon": "⏰",
+  "color": "#d9534f",
+  "featured": false,
+  "image": "healthchecks/healthchecks:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8010", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "health.home.arpa", "type": "domain"},
+    {"key": "site_root", "label": "Site root URL", "default": "https://health.home.arpa", "type": "text"}
+  ],
+  "compose": "services:\n  healthchecks:\n    image: healthchecks/healthchecks:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8000\"\n    environment:\n      SITE_ROOT: \"${{cfg.site_root}}\"\n      ALLOWED_HOSTS: \"*\"\n    volumes:\n      - ./data:/data\n    restart: unless-stopped\n"
+}

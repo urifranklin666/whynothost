@@ -1,0 +1,18 @@
+{
+  "id": "open-webui",
+  "name": "Open WebUI",
+  "tagline": "ChatGPT-style UI for local LLMs",
+  "description": "Self-hosted chat interface for Ollama and OpenAI-compatible APIs: multi-user, RAG document upload, model presets, chat history.",
+  "category": "ai",
+  "version": "0.4",
+  "icon": "💬",
+  "color": "#1a73e8",
+  "featured": true,
+  "image": "ghcr.io/open-webui/open-webui:main",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3080", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "chat.home.arpa", "type": "domain"},
+    {"key": "ollama_url", "label": "Ollama URL", "default": "http://host.docker.internal:11434", "type": "text"}
+  ],
+  "compose": "services:\n  open-webui:\n    image: ghcr.io/open-webui/open-webui:main\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    environment:\n      OLLAMA_BASE_URL: \"${{cfg.ollama_url}}\"\n    extra_hosts:\n      - \"host.docker.internal:host-gateway\"\n    volumes:\n      - ./data:/app/backend/data\n    restart: unless-stopped\n"
+}

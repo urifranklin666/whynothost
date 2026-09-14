@@ -1,0 +1,17 @@
+{
+  "id": "trilium",
+  "name": "Trilium Notes",
+  "tagline": "Hierarchical note-taking for power users",
+  "description": "Personal knowledge base with rich-text notes, scripts, relation graphs, mind maps and a powerful sync server for your devices.",
+  "category": "productivity",
+  "version": "0.63",
+  "icon": "🧠",
+  "color": "#ffc107",
+  "featured": false,
+  "image": "zadam/trilium:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8096", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "notes.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  trilium:\n    image: zadam/trilium:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    volumes:\n      - ./data:/root/trilium-data\n    restart: unless-stopped\n"
+}

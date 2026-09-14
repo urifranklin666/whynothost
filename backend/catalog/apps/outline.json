@@ -1,0 +1,18 @@
+{
+  "id": "outline",
+  "name": "Outline",
+  "tagline": "Team knowledge base & wiki",
+  "description": "Fast, beautiful wiki for teams: real-time collaborative docs, nested collections, Markdown support, powerful search.",
+  "category": "productivity",
+  "version": "0.80",
+  "icon": "📚",
+  "color": "#de7b48",
+  "featured": false,
+  "image": "outlinewiki/outline:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3081", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "wiki.home.arpa", "type": "domain"},
+    {"key": "secret_key", "label": "Secret key", "default": "", "type": "secret", "required": true}
+  ],
+  "compose": "services:\n  outline:\n    image: outlinewiki/outline:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n    environment:\n      SECRET_KEY: \"${{cfg.secret_key}}\"\n      UTILS_SECRET: \"${{cfg.secret_key}}\"\n      URL: \"https://${{cfg.domain}}\"\n    volumes:\n      - ./data:/var/lib/outline/data\n    restart: unless-stopped\n"
+}

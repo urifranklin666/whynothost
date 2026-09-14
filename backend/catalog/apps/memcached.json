@@ -1,0 +1,17 @@
+{
+  "id": "memcached",
+  "name": "Memcached",
+  "tagline": "In-memory key/value cache",
+  "description": "High-performance distributed memory cache — handy backing service for other self-hosted apps. Headless: no web UI.",
+  "category": "dev",
+  "version": "1.6",
+  "icon": "⚡",
+  "color": "#00a651",
+  "featured": false,
+  "image": "memcached:latest",
+  "config": [
+    {"key": "mem_port", "label": "Memcached port", "default": "11211", "type": "port", "required": true},
+    {"key": "memory_mb", "label": "Memory limit (MB)", "default": "64", "type": "text"}
+  ],
+  "compose": "services:\n  memcached:\n    image: memcached:latest\n    ports:\n      - \"127.0.0.1:${{cfg.mem_port}}:11211\"\n    command: -m ${{cfg.memory_mb}}\n    restart: unless-stopped\n"
+}

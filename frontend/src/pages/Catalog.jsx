@@ -6,6 +6,7 @@ import InstallModal from '../components/InstallModal.jsx'
 const CATEGORY_LABELS = {
   all: 'All', files: 'Files', media: 'Media', dev: 'Dev', networking: 'Network',
   security: 'Security', automation: 'Automation', home: 'Home', reading: 'Reading', writing: 'Writing',
+  monitoring: 'Monitoring', ai: 'AI', communication: 'Communication', productivity: 'Productivity',
 }
 
 export default function Catalog() {

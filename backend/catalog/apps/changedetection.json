@@ -1,0 +1,17 @@
+{
+  "id": "changedetection",
+  "name": "Changedetection.io",
+  "tagline": "Website change monitoring & alerts",
+  "description": "Watch web pages for changes — price drops, restocks, contract renewals — and get notified via ntfy, Discord, Telegram and 80+ services.",
+  "category": "monitoring",
+  "version": "0.48",
+  "icon": "👁️",
+  "color": "#ff6b6b",
+  "featured": false,
+  "image": "ghcr.io/dgtlmoon/changedetection.io:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "5001", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "watch.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  changedetection:\n    image: ghcr.io/dgtlmoon/changedetection.io:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:5000\"\n    volumes:\n      - ./data:/datastore\n    restart: unless-stopped\n"
+}

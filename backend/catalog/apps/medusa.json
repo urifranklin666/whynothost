@@ -1,0 +1,17 @@
+{
+  "id": "medusa",
+  "name": "Medusa",
+  "tagline": "Automatic TV show downloader",
+  "description": "PVR alternative to Sonarr for TV shows: searches indexers, grabs episodes automatically and post-processes them into your library.",
+  "category": "media",
+  "version": "1.0.22",
+  "icon": "🐍",
+  "color": "#28a745",
+  "featured": false,
+  "image": "lscr.io/linuxserver/medusa:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8081", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "medusa.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  medusa:\n    image: lscr.io/linuxserver/medusa:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8081\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n      - /tv:/tv\n      - /downloads:/downloads\n    restart: unless-stopped\n"
+}

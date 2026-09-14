@@ -1,0 +1,17 @@
+{
+  "id": "vikunja",
+  "name": "Vikunja",
+  "tagline": "To-do & project management, self-hosted",
+  "description": "Task manager with lists, kanban boards, gantt, calendar, teams and reminders. A polished open-source Todoist/Trello alternative.",
+  "category": "productivity",
+  "version": "0.24",
+  "icon": "✅",
+  "color": "#1973ff",
+  "featured": false,
+  "image": "vikunja/vikunja:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8089", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "tasks.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  vikunja:\n    image: vikunja/vikunja:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3456\"\n    environment:\n      VIKUNJA_SERVICE_PUBLICURL: \"https://${{cfg.domain}}\"\n      VIKUNJA_DATABASE_TYPE: \"sqlite\"\n    volumes:\n      - ./data:/app/vikunja/files\n    restart: unless-stopped\n"
+}

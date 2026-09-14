@@ -1,0 +1,17 @@
+{
+  "id": "digikam",
+  "name": "digiKam",
+  "tagline": "Photo management desktop app, in a container",
+  "description": "Professional photo management with face recognition, similar-image search, geotagging and RAW processing — via web-accessible noVNC session.",
+  "category": "media",
+  "version": "8.4",
+  "icon": "🖼️",
+  "color": "#0079c1",
+  "featured": false,
+  "image": "lscr.io/linuxserver/digikam:latest",
+  "config": [
+    {"key": "port", "label": "Web VNC port", "default": "3082", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "photos-vnc.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  digikam:\n    image: lscr.io/linuxserver/digikam:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n    security_opt:\n      - seccomp:unconfined\n    volumes:\n      - ./data:/config\n      - /pictures:/pictures\n    restart: unless-stopped\n"
+}

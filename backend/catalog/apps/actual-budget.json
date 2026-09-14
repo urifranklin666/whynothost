@@ -1,0 +1,17 @@
+{
+  "id": "actual-budget",
+  "name": "Actual Budget",
+  "tagline": "Local-first envelope budgeting",
+  "description": "Super-fast privacy-focused budgeting app: envelope budgeting, bank sync via plugins, multi-device sync on your own server.",
+  "category": "productivity",
+  "version": "24.9",
+  "icon": "💰",
+  "color": "#3f51b5",
+  "featured": false,
+  "image": "actualbudget/actual-server:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "5006", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "budget.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  actual:\n    image: actualbudget/actual-server:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:5006\"\n    volumes:\n      - ./data:/data\n    restart: unless-stopped\n"
+}

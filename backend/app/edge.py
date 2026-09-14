@@ -104,6 +104,8 @@ def generate_caddyfile() -> str:
     for r in rows:
         app_id = r["id"]
         cfg = json.loads(r["config"] or "{}")
+        if not _web_port(cfg):
+            continue  # headless daemons (e.g. ollama, tailscale) have no web UI to proxy
         domain = (cfg.get("domain") or f"{slugify(r['name'])}.{config.DOMAIN_SUFFIX}").lower()
         target = _app_target(app_id, cfg)
         lines.extend(_domain_block(domain, target))
@@ -114,10 +116,17 @@ def generate_caddyfile() -> str:
 
 def _app_target(app_id: str, cfg: dict) -> str:
     """Where the edge should forward traffic for an app."""
-    port = cfg.get("port")
+    port = _web_port(cfg)
     if port:
         return f"127.0.0.1:{port}"
     return f"{app_id}:80"
+
+
+def _web_port(cfg: dict) -> str:
+    """App config key holding the web-UI port ('port' or '*_port' that isn't DNS/sync)."""
+    if not cfg.get("port"):
+        return ""
+    return cfg["port"]
 
 
 def _domain_block(domain: str, target: str) -> list[str]:
@@ -190,6 +199,7 @@ def status() -> dict:
                 "https": not is_local_domain(json.loads(r["config"] or "{}").get("domain") or f"{slugify(r['name'])}.{config.DOMAIN_SUFFIX}"),
             }
             for r in _running_apps()
+            if _web_port(json.loads(r["config"] or "{}"))
         ],
     }
 

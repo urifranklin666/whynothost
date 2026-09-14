@@ -1,0 +1,17 @@
+{
+  "id": "tubesync",
+  "name": "TubeSync",
+  "tagline": "Sync YouTube channels & playlists locally",
+  "description": "Archives YouTube channels and playlists as media files on a schedule — your subscriptions, downloaded and organized.",
+  "category": "media",
+  "version": "0.14",
+  "icon": "📼",
+  "color": "#c62828",
+  "featured": false,
+  "image": "ghcr.io/meeb/tubesync:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8094", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "tubesync.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  tubesync:\n    image: ghcr.io/meeb/tubesync:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:4848\"\n    environment:\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n      - /downloads:/downloads\n    restart: unless-stopped\n"
+}

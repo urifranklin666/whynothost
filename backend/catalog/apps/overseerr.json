@@ -1,0 +1,17 @@
+{
+  "id": "overseerr",
+  "name": "Overseerr",
+  "tagline": "Media request & management tool",
+  "description": "Requests portal for your media server: friends and family browse and request movies/shows; requests flow straight into Radarr/Sonarr.",
+  "category": "media",
+  "version": "1.34",
+  "icon": "🎟️",
+  "color": "#512da8",
+  "featured": false,
+  "image": "lscr.io/linuxserver/overseerr:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "5055", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "requests.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  overseerr:\n    image: lscr.io/linuxserver/overseerr:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:5055\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

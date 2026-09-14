@@ -1,0 +1,18 @@
+{
+  "id": "adguard-home",
+  "name": "AdGuard Home",
+  "tagline": "Network-wide ads & trackers blocking DNS",
+  "description": "DNS server that blocks ads and trackers for every device on your network, with per-client rules, parental controls and encrypted upstreams (DoH/DoT).",
+  "category": "networking",
+  "version": "0.107",
+  "icon": "🛡️",
+  "color": "#68bc71",
+  "featured": false,
+  "image": "adguard/adguardhome:latest",
+  "config": [
+    {"key": "port", "label": "Web port", "default": "3001", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "dns.home.arpa", "type": "domain"},
+    {"key": "dns_port", "label": "DNS port (53)", "default": "5353", "type": "port", "required": true}
+  ],
+  "compose": "services:\n  adguard:\n    image: adguard/adguardhome:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n      - \"${{cfg.dns_port}}:53/tcp\"\n      - \"${{cfg.dns_port}}:53/udp\"\n    volumes:\n      - ./work:/opt/adguardhome/work\n      - ./conf:/opt/adguardhome/conf\n    restart: unless-stopped\n"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "netdata",
+  "name": "Netdata",
+  "tagline": "Real-time infrastructure monitoring, per-second",
+  "description": "Instant, per-second metrics for systems and apps with auto-detecting dashboards — no configuration required.",
+  "category": "monitoring",
+  "version": "2.0",
+  "icon": "🩺",
+  "color": "#00ab44",
+  "featured": false,
+  "image": "netdata/netdata:latest",
+  "config": [
+    {"key": "port", "label": "Web port", "default": "19999", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "netdata.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  netdata:\n    image: netdata/netdata:latest\n    pid: host\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:19999\"\n    cap_add:\n      - SYS_PTRACE\n      - SYS_ADMIN\n    volumes:\n      - /proc:/host/proc:ro\n      - /sys:/host/sys:ro\n      - /var/run/docker.sock:/var/run/docker.sock:ro\n      - ./data:/var/lib/netdata\n    restart: unless-stopped\n"
+}

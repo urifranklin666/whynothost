@@ -1,0 +1,19 @@
+{
+  "id": "wg-easy",
+  "name": "WireGuard Easy",
+  "tagline": "WireGuard VPN with a web UI",
+  "description": "The easiest way to run your own WireGuard VPN: web UI to add clients, show QR codes, and see live stats. Point your phone or laptop at it and you're on your home network from anywhere.",
+  "category": "networking",
+  "version": "15",
+  "icon": "🔒",
+  "color": "#ea590c",
+  "featured": true,
+  "image": "ghcr.io/wg-easy/wg-easy:15",
+  "config": [
+    {"key": "port", "label": "Web UI port", "default": "51821", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "vpn.home.arpa", "type": "domain"},
+    {"key": "host", "label": "Public hostname / IP", "default": "", "type": "text", "required": true},
+    {"key": "vpn_port", "label": "VPN port (UDP)", "default": "51820", "type": "port", "required": true}
+  ],
+  "compose": "services:\n  wg-easy:\n    image: ghcr.io/wg-easy/wg-easy:15\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:51821/tcp\"\n      - \"${{cfg.vpn_port}}:51820/udp\"\n    environment:\n      WG_HOST: \"${{cfg.host}}\"\n    cap_add:\n      - NET_ADMIN\n      - SYS_MODULE\n    sysctls:\n      - net.ipv4.ip_forward=1\n      - net.ipv4.conf.all.src_valid_mark=1\n    volumes:\n      - ./etc_wireguard:/etc/wireguard\n      - /lib/modules:/lib/modules:ro\n    restart: unless-stopped\n"
+}

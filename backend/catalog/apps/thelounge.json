@@ -1,0 +1,17 @@
+{
+  "id": "thelounge",
+  "name": "The Lounge",
+  "tagline": "Modern, always-connected web IRC client",
+  "description": "Self-hosted IRC client that stays connected 24/7: notifications, link previews, emojis, and a responsive web UI.",
+  "category": "communication",
+  "version": "4.4",
+  "icon": "💬",
+  "color": "#3d6da5",
+  "featured": false,
+  "image": "lscr.io/linuxserver/thelounge:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8084", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "irc.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  thelounge:\n    image: lscr.io/linuxserver/thelounge:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:9000\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

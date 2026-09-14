@@ -1,0 +1,17 @@
+{
+  "id": "glances",
+  "name": "Glances",
+  "tagline": "All-in-one system monitor in your browser",
+  "description": "Cross-platform system monitoring: CPU, memory, disks, network, sensors, processes — with web UI and alerting.",
+  "category": "monitoring",
+  "version": "4.3",
+  "icon": "📊",
+  "color": "#5f9ea0",
+  "featured": false,
+  "image": "nicolargo/glances:latest-full",
+  "config": [
+    {"key": "port", "label": "Web port", "default": "61208", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "glances.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  glances:\n    image: nicolargo/glances:latest-full\n    pid: host\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:61208\"\n    environment:\n      GLANCES_OPT: \"-w\"\n    volumes:\n      - /var/run/docker.sock:/var/run/docker.sock:ro\n      - ./data:/root/.config/glances\n    restart: unless-stopped\n"
+}

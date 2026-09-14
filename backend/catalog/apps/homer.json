@@ -1,0 +1,17 @@
+{
+  "id": "homer",
+  "name": "Homer",
+  "tagline": "A dead-simple homepage for your services",
+  "description": "Static homepage dashboard listing all your self-hosted services with live status pings and search shortcuts. Configure everything in one YAML file.",
+  "category": "networking",
+  "version": "25.04",
+  "icon": "🏠",
+  "color": "#4285f4",
+  "featured": false,
+  "image": "b4bz/homer:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8081", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "home.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  homer:\n    image: b4bz/homer:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    volumes:\n      - ./assets:/www/assets\n    restart: unless-stopped\n"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "grocy",
+  "name": "Grocy",
+  "tagline": "ERP for your fridge & household",
+  "description": "Track groceries with barcodes and best-before dates, chores, batteries, recipes and meal plans. ERP beyond the enterprise.",
+  "category": "home",
+  "version": "4.3",
+  "icon": "🛒",
+  "color": "#56b349",
+  "featured": false,
+  "image": "lscr.io/linuxserver/grocy:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8093", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "grocy.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  grocy:\n    image: lscr.io/linuxserver/grocy:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

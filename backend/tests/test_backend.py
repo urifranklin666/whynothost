@@ -323,3 +323,30 @@ def test_edge_slug_default_domain(client, catalog_app):
     assert edge.slugify("Test App") == "test-app"
     assert edge.slugify("Uptime Kuma!") == "uptime-kuma"
     assert edge.slugify("###") == "app"
+
+
+def test_edge_skips_apps_without_web_port(client, catalog_app):
+    # headless daemons (no 'port' key in config) must not get Caddyfile blocks
+    from app import edge, store
+    c = client
+    with store.db() as conn:
+        conn.execute(
+            "INSERT OR REPLACE INTO apps (id, name, catalog_version, status, config) VALUES (?,?,?,?,?)",
+            ("headless-ollama", "Ollama", "1", "running",
+             json.dumps({"api_port": "11434"})),
+        )
+        conn.execute(
+            "INSERT OR REPLACE INTO apps (id, name, catalog_version, status, config) VALUES (?,?,?,?,?)",
+            ("webby", "Webby", "1", "running",
+             json.dumps({"port": "8085", "domain": "webby.home.arpa"})),
+        )
+    try:
+        text = edge.generate_caddyfile()
+        assert "webby.home.arpa {" in text
+        assert "headless-ollama" not in text
+        assert "reverse_proxy 127.0.0.1:8085" in text
+        st = edge.status()
+        assert [a["id"] for a in st["apps"]] == ["webby"]
+    finally:
+        with store.db() as conn:
+            conn.execute("DELETE FROM apps WHERE id IN ('headless-ollama', 'webby')")

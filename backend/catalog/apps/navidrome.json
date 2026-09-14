@@ -1,0 +1,18 @@
+{
+  "id": "navidrome",
+  "name": "Navidrome",
+  "tagline": "Your music, streamed everywhere",
+  "description": "Lightweight Subsonic-compatible music server with a slick web player — works with all Subsonic mobile apps.",
+  "category": "media",
+  "version": "0.54",
+  "icon": "🎵",
+  "color": "#2196f3",
+  "featured": false,
+  "image": "deluan/navidrome:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "4533", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "music.home.arpa", "type": "domain"},
+    {"key": "music_dir", "label": "Music directory", "default": "/music", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  navidrome:\n    image: deluan/navidrome:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:4533\"\n    environment:\n      ND_SCANSCHEDULE: \"1h\"\n    volumes:\n      - ${{cfg.music_dir}}:/music:ro\n      - ./data:/data\n    restart: unless-stopped\n"
+}

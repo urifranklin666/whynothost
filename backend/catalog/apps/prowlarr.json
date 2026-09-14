@@ -1,0 +1,17 @@
+{
+  "id": "prowlarr",
+  "name": "Prowlarr",
+  "tagline": "Indexer manager for the *arr suite",
+  "description": "One place to manage all your usenet/torrent indexers and sync them into Sonarr, Radarr, Lidarr and friends.",
+  "category": "media",
+  "version": "1.30",
+  "icon": "🔎",
+  "color": "#9c27b0",
+  "featured": false,
+  "image": "lscr.io/linuxserver/prowlarr:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "9696", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "prowlarr.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  prowlarr:\n    image: lscr.io/linuxserver/prowlarr:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:9696\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

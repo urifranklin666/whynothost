@@ -1,0 +1,18 @@
+{
+  "id": "matrix-synapse",
+  "name": "Synapse (Matrix)",
+  "tagline": "Matrix homeserver — federated chat",
+  "description": "The reference Matrix homeserver. Chat with people on any other Matrix server, bridge to other platforms, keep history on your own hardware. First admin user registers via /register.",
+  "category": "communication",
+  "version": "1.119",
+  "icon": "🌉",
+  "color": "#0dbd8b",
+  "featured": false,
+  "image": "matrixdotorg/synapse:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8008", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "matrix.home.arpa", "type": "domain"},
+    {"key": "server_name", "label": "Server name", "default": "home.arpa", "type": "text", "required": true}
+  ],
+  "compose": "services:\n  synapse:\n    image: matrixdotorg/synapse:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8008\"\n    environment:\n      SYNAPSE_SERVER_NAME: \"${{cfg.server_name}}\"\n      SYNAPSE_REPORT_STATS: \"no\"\n    volumes:\n      - ./data:/data\n    restart: unless-stopped\n"
+}

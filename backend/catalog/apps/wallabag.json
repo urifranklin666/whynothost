@@ -1,0 +1,17 @@
+{
+  "id": "wallabag",
+  "name": "Wallabag",
+  "tagline": "Read-it-later, ad-free and yours",
+  "description": "Save articles to read later without ads or tracking, from any device. A private Pocket/Instapaper alternative with export to EPUB/PDF.",
+  "category": "reading",
+  "version": "2.6",
+  "icon": "📖",
+  "color": "#2c3e50",
+  "featured": false,
+  "image": "wallabag/wallabag:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8090", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "read.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  wallabag:\n    image: wallabag/wallabag:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      POPULATE_DATABASE: \"false\"\n    volumes:\n      - ./data:/var/www/wallabag/data\n    restart: unless-stopped\n"
+}

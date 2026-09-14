@@ -1,0 +1,17 @@
+{
+  "id": "sonarr",
+  "name": "Sonarr",
+  "tagline": "TV show collection manager",
+  "description": "PVR for usenet and torrent sources: monitors shows, grabs new episodes automatically, renames and organizes your library.",
+  "category": "media",
+  "version": "4",
+  "icon": "📺",
+  "color": "#00a29b",
+  "featured": false,
+  "image": "lscr.io/linuxserver/sonarr:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8989", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "sonarr.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  sonarr:\n    image: lscr.io/linuxserver/sonarr:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8989\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n      - /tv:/tv\n      - /downloads:/downloads\n    restart: unless-stopped\n"
+}

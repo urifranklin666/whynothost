@@ -1,0 +1,18 @@
+{
+  "id": "shlink",
+  "name": "Shlink",
+  "tagline": "Self-hosted URL shortener with stats",
+  "description": "Shorten links under your own domain with visit statistics, tags, QR codes and a REST/CLI API.",
+  "category": "dev",
+  "version": "4.2",
+  "icon": "🔗",
+  "color": "#26a69a",
+  "featured": false,
+  "image": "shlinkio/shlink:stable",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8070", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "links.home.arpa", "type": "domain"},
+    {"key": "short_domain", "label": "Short domain", "default": "links.home.arpa", "type": "domain", "required": true}
+  ],
+  "compose": "services:\n  shlink:\n    image: shlinkio/shlink:stable\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    environment:\n      DEFAULT_DOMAIN: \"${{cfg.short_domain}}\"\n      IS_HTTPS_ENABLED: \"true\"\n    volumes:\n      - ./data:/etc/shlink/data\n    restart: unless-stopped\n"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "jitsi-meet",
+  "name": "Jitsi Meet",
+  "tagline": "Video conferences on your own terms",
+  "description": "Self-hosted video conferencing: unlimited participants, no accounts needed, screen sharing and recording. A private Zoom alternative.",
+  "category": "communication",
+  "version": "stable-9779",
+  "icon": "📹",
+  "color": "#1d77d3",
+  "featured": false,
+  "image": "jitsi/web:stable-9779",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8000", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "meet.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  jitsi-web:\n    image: jitsi/web:stable-9779\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      PUBLIC_URL: \"https://${{cfg.domain}}\"\n      ENABLE_AUTH: \"0\"\n    volumes:\n      - ./data:/config\n    restart: unless-stopped\n"
+}

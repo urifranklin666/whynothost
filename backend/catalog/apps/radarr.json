@@ -1,0 +1,17 @@
+{
+  "id": "radarr",
+  "name": "Radarr",
+  "tagline": "Movie collection manager",
+  "description": "PVR for movies: automatically grabs, renames and sorts new releases from usenet/torrents, with quality profiles and custom formats.",
+  "category": "media",
+  "version": "5",
+  "icon": "🎬",
+  "color": "#f5c518",
+  "featured": false,
+  "image": "lscr.io/linuxserver/radarr:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "7878", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "radarr.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  radarr:\n    image: lscr.io/linuxserver/radarr:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:7878\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n      TZ: \"UTC\"\n    volumes:\n      - ./data:/config\n      - /movies:/movies\n      - /downloads:/downloads\n    restart: unless-stopped\n"
+}

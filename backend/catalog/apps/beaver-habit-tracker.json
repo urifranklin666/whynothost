@@ -1,0 +1,17 @@
+{
+  "id": "beaver-habit",
+  "name": "Beaver Habit Tracker",
+  "tagline": "Habit tracking without the guilt",
+  "description": "Minimal, fast habit tracker: quick daily check-ins, streaks and a clean calendar view. No accounts, no analytics.",
+  "category": "productivity",
+  "version": "0.14",
+  "icon": "🦫",
+  "color": "#8d5b4c",
+  "featured": false,
+  "image": "daya0576/beaver:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3278", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "habits.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  beaver:\n    image: daya0576/beaver:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:1230\"\n    volumes:\n      - ./data:/app/.data\n    restart: unless-stopped\n"
+}

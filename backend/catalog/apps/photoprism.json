@@ -1,0 +1,19 @@
+{
+  "id": "photoprism",
+  "name": "PhotoPrism",
+  "tagline": "AI-powered photos app for the decentralized web",
+  "description": "Photo library with automatic tagging, face detection, maps and powerful search — runs anywhere from a Raspberry Pi to a server.",
+  "category": "media",
+  "version": "240912",
+  "icon": "📷",
+  "color": "#00a65a",
+  "featured": false,
+  "image": "photoprism/photoprism:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "2342", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "photoprism.home.arpa", "type": "domain"},
+    {"key": "admin_password", "label": "Admin password", "default": "insecure", "type": "secret"},
+    {"key": "photos_dir", "label": "Photos directory", "default": "/pictures", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  photoprism:\n    image: photoprism/photoprism:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:2342\"\n    environment:\n      PHOTOPRISM_ADMIN_PASSWORD: \"${{cfg.admin_password}}\"\n      PHOTOPRISM_ORIGINALS_LIMIT: \"200\"\n    volumes:\n      - ${{cfg.photos_dir}}:/photoprism/originals\n      - ./data:/photoprism/storage\n    restart: unless-stopped\n"
+}

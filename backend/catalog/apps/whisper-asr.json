@@ -1,0 +1,17 @@
+{
+  "id": "whisper-asr",
+  "name": "Whisper ASR",
+  "tagline": "Self-hosted speech-to-text API",
+  "description": "OpenAI Whisper as an HTTP service: transcribe audio files via a simple REST API or the bundled web page. Great for automating transcriptions.",
+  "category": "ai",
+  "version": "1.4",
+  "icon": "🎙️",
+  "color": "#673ab7",
+  "featured": false,
+  "image": "onerahmet/openai-whisper-asr-webservice:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "9001", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "whisper.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  whisper:\n    image: onerahmet/openai-whisper-asr-webservice:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:9000\"\n    environment:\n      ASR_MODEL: \"base\"\n      ASR_ENGINE: \"faster_whisper\"\n    volumes:\n      - ./data:/root/.cache/whisper\n    restart: unless-stopped\n"
+}

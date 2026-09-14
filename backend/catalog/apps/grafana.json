@@ -1,0 +1,18 @@
+{
+  "id": "grafana",
+  "name": "Grafana",
+  "tagline": "Dashboards & visualization for every metric",
+  "description": "Query, visualize and alert on metrics from Prometheus, InfluxDB, Loki and dozens of other datasources. The observability standard.",
+  "category": "monitoring",
+  "version": "11.3",
+  "icon": "📈",
+  "color": "#f46800",
+  "featured": false,
+  "image": "grafana/grafana:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3000", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "grafana.home.arpa", "type": "domain"},
+    {"key": "admin_password", "label": "Grafana admin password", "default": "admin", "type": "secret"}
+  ],
+  "compose": "services:\n  grafana:\n    image: grafana/grafana:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n    environment:\n      GF_SECURITY_ADMIN_PASSWORD: \"${{cfg.admin_password}}\"\n      GF_USERS_ALLOW_SIGN_UP: \"false\"\n    volumes:\n      - ./data:/var/lib/grafana\n    restart: unless-stopped\n"
+}

@@ -39,13 +39,17 @@ export default function App() {
     )
   }
 
-  if (!user || loc.pathname === '/login') {
+  if (!user) {
     return (
       <Routes>
         <Route path="/login" element={<Login onLogin={setUser} />} />
-        <Route path="*" element={<Navigate to={user ? '/' : '/login'} replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     )
+  }
+
+  if (loc.pathname === '/login') {
+    return <Navigate to="/" replace />
   }
 
   return (

@@ -1,0 +1,18 @@
+{
+  "id": "paperless-ngx",
+  "name": "Paperless-ngx",
+  "tagline": "Scan, OCR, index, and never lose a document",
+  "description": "Document management with OCR and tagging. Turn paper into a searchable archive.",
+  "category": "files",
+  "version": "2.11",
+  "icon": "📄",
+  "color": "#17541f",
+  "featured": false,
+  "image": "ghcr.io/paperless-ngx/paperless-ngx:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8000", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "docs.home.arpa", "type": "domain"},
+    {"key": "consume_dir", "label": "Consume directory", "default": "./consume", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  paperless:\n    image: ghcr.io/paperless-ngx/paperless-ngx:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8000\"\n    volumes:\n      - ./data:/usr/src/paperless/data\n      - ./media:/usr/src/paperless/media\n      - ${{cfg.consume_dir}}:/usr/src/paperless/consume\n    environment:\n      PAPERLESS_REDIS: redis://redis:6379\n    restart: unless-stopped\n\n  redis:\n    image: redis:7-alpine\n    restart: unless-stopped\n"
+}

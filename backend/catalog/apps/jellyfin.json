@@ -1,0 +1,18 @@
+{
+  "id": "jellyfin",
+  "name": "Jellyfin",
+  "tagline": "Your media, your server, no streaming fees",
+  "description": "Free software media system: movies, shows, music streaming to any device with transcoding.",
+  "category": "media",
+  "version": "10.10",
+  "icon": "🎬",
+  "color": "#00a4dc",
+  "featured": true,
+  "image": "jellyfin/jellyfin:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8096", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "media.home.arpa", "type": "domain"},
+    {"key": "media_dir", "label": "Media directory", "default": "./media", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  jellyfin:\n    image: jellyfin/jellyfin:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8096\"\n    volumes:\n      - ./config:/config\n      - ./cache:/cache\n      - ${{cfg.media_dir}}:/media:ro\n    restart: unless-stopped\n"
+}

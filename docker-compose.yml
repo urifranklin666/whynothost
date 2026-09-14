@@ -1,0 +1,27 @@
+# Run WhyNotHost itself as a self-hosted container.
+#
+#   docker compose up -d
+#
+# Requires the host's Docker socket so the platform can deploy apps.
+services:
+  whynothost:
+    build: .
+    image: whynothost:latest
+    container_name: whynothost
+    ports:
+      - "8022:8022"
+    environment:
+      WNH_PORT: "8022"
+      WNH_DOMAIN_SUFFIX: home.arpa
+    volumes:
+      - whynothost-data:/data
+      # platform deploys real containers on the host
+      - /var/run/docker.sock:/var/run/docker.sock
+      # app stacks live on the host so they survive container rebuilds
+      - /opt/whynothost/stacks:/data/stacks
+      - /opt/whynothost/backups:/data/backups
+      - /opt/whynothost/edge:/data/edge
+    restart: unless-stopped
+
+volumes:
+  whynothost-data:

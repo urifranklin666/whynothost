@@ -1,0 +1,18 @@
+{
+  "id": "gitea",
+  "name": "Gitea",
+  "tagline": "Painless self-hosted Git service",
+  "description": "Lightweight code hosting with issues, PRs, wiki, CI hooks. GitHub for your own hardware.",
+  "category": "dev",
+  "version": "1.22",
+  "icon": "🧉",
+  "color": "#609926",
+  "featured": true,
+  "image": "gitea/gitea:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3000", "type": "port", "required": true},
+    {"key": "ssh_port", "label": "SSH port", "default": "2222", "type": "port"},
+    {"key": "domain", "label": "Domain", "default": "git.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  gitea:\n    image: gitea/gitea:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3000\"\n      - \"${{cfg.ssh_port}}:22\"\n    volumes:\n      - ./data:/data\n    environment:\n      USER_UID: \"1000\"\n      USER_GID: \"1000\"\n    restart: unless-stopped\n"
+}

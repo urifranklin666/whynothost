@@ -1,0 +1,17 @@
+{
+  "id": "syncthing",
+  "name": "Syncthing",
+  "tagline": "Device-to-device file sync, no cloud",
+  "description": "Continuous, encrypted, peer-to-peer file synchronization between your devices.",
+  "category": "files",
+  "version": "1.27",
+  "icon": "🔄",
+  "color": "#0891d1",
+  "featured": false,
+  "image": "syncthing/syncthing:latest",
+  "config": [
+    {"key": "port", "label": "GUI port", "default": "8384", "type": "port", "required": true},
+    {"key": "sync_port", "label": "Sync port (TCP/UDP)", "default": "22000", "type": "port"}
+  ],
+  "compose": "services:\n  syncthing:\n    image: syncthing/syncthing:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8384\"\n      - \"${{cfg.sync_port}}:22000/tcp\"\n      - \"${{cfg.sync_port}}:22000/udp\"\n    volumes:\n      - ./data:/var/syncthing\n    restart: unless-stopped\n"
+}

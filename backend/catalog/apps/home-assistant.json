@@ -1,0 +1,17 @@
+{
+  "id": "home-assistant",
+  "name": "Home Assistant",
+  "tagline": "The smart home brain",
+  "description": "Automate lights, sensors, cameras and 2500+ integrations. The heart of DIY home automation.",
+  "category": "home",
+  "version": "2024.11",
+  "icon": "🏠",
+  "color": "#41bdf5",
+  "featured": true,
+  "image": "ghcr.io/home-assistant/home-assistant:stable",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8123", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "ha.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  homeassistant:\n    image: ghcr.io/home-assistant/home-assistant:stable\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8123\"\n    volumes:\n      - ./config:/config\n    privileged: true\n    restart: unless-stopped\n"
+}

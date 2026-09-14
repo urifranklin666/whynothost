@@ -1,0 +1,17 @@
+{
+  "id": "dokuwiki",
+  "name": "DokuWiki",
+  "tagline": "File-based wiki, zero database",
+  "description": "Simple, versatile wiki that needs no database. Great for docs, notes, knowledge bases.",
+  "category": "writing",
+  "version": "2024",
+  "icon": "📖",
+  "color": "#007700",
+  "featured": false,
+  "image": "lscr.io/linuxserver/dokuwiki:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8087", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "wiki.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  dokuwiki:\n    image: lscr.io/linuxserver/dokuwiki:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      PUID: \"1000\"\n      PGID: \"1000\"\n    volumes:\n      - ./config:/config\n    restart: unless-stopped\n"
+}

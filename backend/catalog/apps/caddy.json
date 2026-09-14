@@ -1,0 +1,17 @@
+{
+  "id": "caddy",
+  "name": "Caddy",
+  "tagline": "The web server that gets HTTPS right",
+  "description": "Powerful, extensible web server with automatic HTTPS. WhyNotHost generates its config for you.",
+  "category": "networking",
+  "version": "2.8",
+  "icon": "🌿",
+  "color": "#0f9d58",
+  "featured": false,
+  "image": "caddy:alpine",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8081", "type": "port", "required": true},
+    {"key": "https_port", "label": "HTTPS port", "default": "8443", "type": "port"}
+  ],
+  "compose": "services:\n  caddy:\n    image: caddy:alpine\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n      - \"127.0.0.1:${{cfg.https_port}}:443\"\n    volumes:\n      - ./Caddyfile:/etc/caddy/Caddyfile\n      - ./data:/data\n    restart: unless-stopped\n"
+}

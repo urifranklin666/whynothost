@@ -1,0 +1,17 @@
+{
+  "id": "miniflux",
+  "name": "Miniflux",
+  "tagline": "Minimalist and opinionated RSS reader",
+  "description": "A no-nonsense feed reader: fast, keyboard-driven, privacy-respecting.",
+  "category": "reading",
+  "version": "2.2",
+  "icon": "📰",
+  "color": "#3399cc",
+  "featured": false,
+  "image": "miniflux/miniflux:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8085", "type": "port", "required": true},
+    {"key": "admin_password", "label": "Admin password", "default": "", "type": "secret", "required": true}
+  ],
+  "compose": "services:\n  miniflux:\n    image: miniflux/miniflux:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:8080\"\n    environment:\n      DATABASE_URL: postgres://miniflux:secret@db/miniflux?sslmode=disable\n      ADMIN_USERNAME: admin\n      ADMIN_PASSWORD: \"${{cfg.admin_password}}\"\n    depends_on:\n      db:\n        condition: service_healthy\n    restart: unless-stopped\n\n  db:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_USER: miniflux\n      POSTGRES_PASSWORD: secret\n      POSTGRES_DB: miniflux\n    volumes:\n      - ./pgdata:/var/lib/postgresql/data\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U miniflux\"]\n      interval: 10s\n      timeout: 3s\n      retries: 3\n    restart: unless-stopped\n"
+}

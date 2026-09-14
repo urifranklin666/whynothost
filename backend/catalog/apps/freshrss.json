@@ -1,0 +1,17 @@
+{
+  "id": "freshrss",
+  "name": "FreshRSS",
+  "tagline": "Self-hosted RSS with full-text extraction",
+  "description": "Feature-rich RSS aggregator: mobile API, fever/Google Reader compat, article scraping.",
+  "category": "reading",
+  "version": "1.24",
+  "icon": "🥬",
+  "color": "#4c8a2f",
+  "featured": false,
+  "image": "freshrss/freshrss:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8090", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "rss.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  freshrss:\n    image: freshrss/freshrss:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    volumes:\n      - ./data:/var/www/FreshRSS/data\n      - ./extensions:/var/www/FreshRSS/extensions\n    environment:\n      CRON_MIN: \"13,43\"\n    restart: unless-stopped\n"
+}

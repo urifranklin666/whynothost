@@ -1,0 +1,17 @@
+{
+  "id": "uptime-kuma",
+  "name": "Uptime Kuma",
+  "tagline": "Fancy self-hosted uptime monitoring",
+  "description": "Monitor HTTP/TCP/DNS services with beautiful status pages, alerts to Telegram/Discord/email.",
+  "category": "networking",
+  "version": "1.23",
+  "icon": "📈",
+  "color": "#5cdd8b",
+  "featured": true,
+  "image": "louislam/uptime-kuma:1",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "3001", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "status.home.arpa", "type": "domain"}
+  ],
+  "compose": "services:\n  uptime-kuma:\n    image: louislam/uptime-kuma:1\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:3001\"\n    volumes:\n      - ./data:/app/data\n    restart: unless-stopped\n"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "pihole",
+  "name": "Pi-hole",
+  "tagline": "Network-wide ad blocking DNS",
+  "description": "Blackhole ads and trackers for every device on your network via DNS. Classic first self-host.",
+  "category": "networking",
+  "version": "2024.07",
+  "icon": "🧅",
+  "color": "#96060c",
+  "featured": false,
+  "image": "pihole/pihole:latest",
+  "config": [
+    {"key": "port", "label": "Admin HTTP port", "default": "8053", "type": "port", "required": true},
+    {"key": "dns_port", "label": "DNS port (53)", "default": "53", "type": "port", "required": true},
+    {"key": "tz", "label": "Timezone", "default": "UTC", "type": "text"}
+  ],
+  "compose": "services:\n  pihole:\n    image: pihole/pihole:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n      - \"${{cfg.dns_port}}:53/tcp\"\n      - \"${{cfg.dns_port}}:53/udp\"\n    environment:\n      TZ: \"${{cfg.tz}}\"\n    volumes:\n      - ./etc-pihole:/etc/pihole\n    cap_add:\n      - NET_ADMIN\n    restart: unless-stopped\n"
+}

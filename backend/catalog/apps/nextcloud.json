@@ -1,0 +1,18 @@
+{
+  "id": "nextcloud",
+  "name": "Nextcloud",
+  "tagline": "Your personal cloud — files, calendar, contacts, more",
+  "description": "Self-hosted productivity platform: file sync & share, calendars, contacts, office suite hooks. The classic self-hosted Google Drive replacement.",
+  "category": "files",
+  "version": "30",
+  "icon": "☁️",
+  "color": "#0082c9",
+  "featured": true,
+  "image": "nextcloud:apache",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8080", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "cloud.home.arpa", "type": "domain"},
+    {"key": "data_dir", "label": "Data directory", "default": "./data", "type": "path"}
+  ],
+  "compose": "services:\n  nextcloud:\n    image: nextcloud:apache\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    volumes:\n      - ${{cfg.data_dir}}:/var/www/html/data\n    restart: unless-stopped\n"
+}

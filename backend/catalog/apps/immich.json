@@ -1,0 +1,18 @@
+{
+  "id": "immich",
+  "name": "Immich",
+  "tagline": "Google Photos replacement you control",
+  "description": "High-performance photo & video backup with ML search, faces, mobile auto-upload.",
+  "category": "media",
+  "version": "1.118",
+  "icon": "📸",
+  "color": "#4250af",
+  "featured": true,
+  "image": "ghcr.io/immich-app/immich-server:release",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "2283", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "photos.home.arpa", "type": "domain"},
+    {"key": "upload_dir", "label": "Upload directory", "default": "./upload", "type": "path", "required": true}
+  ],
+  "compose": "services:\n  immich:\n    image: ghcr.io/immich-app/immich-server:release\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:2283\"\n    volumes:\n      - ${{cfg.upload_dir}}:/usr/src/app/upload\n    restart: unless-stopped\n"
+}

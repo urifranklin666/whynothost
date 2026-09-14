@@ -1,0 +1,18 @@
+{
+  "id": "vaultwarden",
+  "name": "Vaultwarden",
+  "tagline": "Bitwarden-compatible password manager, lightweight",
+  "description": "A self-hosted Bitwarden server in Rust. Store passwords, passkeys, TOTP codes; sync with official Bitwarden apps.",
+  "category": "security",
+  "version": "1.33",
+  "icon": "🔐",
+  "color": "#175ddc",
+  "featured": true,
+  "image": "vaultwarden/server:latest",
+  "config": [
+    {"key": "port", "label": "HTTP port", "default": "8222", "type": "port", "required": true},
+    {"key": "domain", "label": "Domain", "default": "vault.home.arpa", "type": "domain"},
+    {"key": "signup", "label": "Allow signups", "default": "false", "type": "bool"}
+  ],
+  "compose": "services:\n  vaultwarden:\n    image: vaultwarden/server:latest\n    ports:\n      - \"127.0.0.1:${{cfg.port}}:80\"\n    environment:\n      SIGNUPS_ALLOWED: \"${{cfg.signup}}\"\n    volumes:\n      - ./data:/data\n    restart: unless-stopped\n"
+}
